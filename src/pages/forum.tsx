@@ -1,12 +1,12 @@
 import { TopBar } from "@/components/menubar";
 import { Posts } from "@/components/posts";
-import { type PostsProps } from "@/components/posts";
 import { CreatePost } from "@/components/create-post";
 import { useEffect, useState } from "react";
 import type { Post, Comment } from "@/api/types";
 import type { CommentProps, PostProps } from "@/components/post";
 import { fetchPosts } from "@/api";
 import { tryCatch } from "@/utils/try-catch";
+import { toast } from "sonner";
 
 
 export function Forum() {
@@ -17,7 +17,7 @@ export function Forum() {
     const [searchString, setSearchString] = useState<string>("");
 
     function handleCreatePost(newPost: any) {
-        // TODO: implement
+        console.log(newPost);
     }
     async function getPosts(search: string) {
         setIsLoading(true);
@@ -36,6 +36,10 @@ export function Forum() {
     useEffect(() => {
         getPosts(searchString);
     }, [searchString]);
+
+    if (error) {
+        toast.error(error);
+    }
 
     return (
         <div>
