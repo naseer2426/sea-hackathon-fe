@@ -25,6 +25,7 @@ export interface PostProps {
     authorId: string;
     timestamp: number;
     tags: string[];
+    type: string;
     comments: Comment[];
     views: number;
     likes: number;
@@ -49,6 +50,7 @@ export function Post({
     tags,
     comments,
     views,
+    type,
     likes
 }: PostProps) {
     const [expanded, setExpanded] = useState(false);
@@ -70,6 +72,18 @@ export function Post({
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
                                         <h3 className="text-xl font-semibold">{title}</h3>
+                                        <Badge
+                                            variant="outline"
+                                            className={
+                                                type === "Question"
+                                                    ? "text-blue-500 border-blue-200 bg-blue-50"
+                                                    : type === "Post"
+                                                        ? "text-orange-500 border-orange-200 bg-orange-50"
+                                                        : type === "Appreciation"
+                                                            ? "text-green-500 border-green-200 bg-green-50"
+                                                            : ""
+                                            }
+                                        >{type}</Badge>
                                     </div>
 
 

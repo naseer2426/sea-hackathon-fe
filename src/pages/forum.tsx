@@ -1,9 +1,11 @@
 import { TopBar } from "@/components/menubar";
 import { Posts } from "@/components/posts";
 import { type PostsProps } from "@/components/posts";
+import { CreatePost } from "@/components/create-post";
+import { useState } from "react";
 
 export function Forum() {
-    const posts: PostsProps = {
+    const initialPosts: PostsProps = {
         posts: [
             {
                 id: "1",
@@ -35,6 +37,7 @@ export function Forum() {
                 ],
                 views: 340,
                 likes: 56,
+                type: "Question",
             },
             {
                 id: "2",
@@ -57,6 +60,7 @@ export function Forum() {
                 ],
                 views: 210,
                 likes: 34,
+                type: "Post",
             },
             {
                 id: "3",
@@ -69,6 +73,7 @@ export function Forum() {
                 comments: [],
                 views: 180,
                 likes: 22,
+                type: "Appreciation",
             },
             {
                 id: "4",
@@ -91,6 +96,7 @@ export function Forum() {
                 ],
                 views: 150,
                 likes: 18,
+                type: "Question",
             },
             {
                 id: "5",
@@ -113,6 +119,7 @@ export function Forum() {
                 ],
                 views: 120,
                 likes: 15,
+                type: "Post",
             },
             {
                 id: "6",
@@ -125,13 +132,23 @@ export function Forum() {
                 comments: [],
                 views: 90,
                 likes: 10,
+                type: "Appreciation",
             },
         ]
+    };
+    const [posts, setPosts] = useState(initialPosts.posts);
+
+    function handleCreatePost(newPost: any) {
+        setPosts([newPost, ...posts]);
     }
+
     return (
         <div>
             <TopBar header="Forum" />
-            <Posts posts={posts.posts} />
+            <div className="flex flex-col gap-2 mt-4">
+                <CreatePost onPost={handleCreatePost} />
+                <Posts posts={posts} />
+            </div>
         </div>
     );
 }

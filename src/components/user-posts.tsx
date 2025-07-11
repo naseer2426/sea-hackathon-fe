@@ -35,6 +35,7 @@ export function UserPosts() {
                 ],
                 views: 340,
                 likes: 56,
+                type: "Question",
             },
             {
                 id: "2",
@@ -57,6 +58,7 @@ export function UserPosts() {
                 ],
                 views: 210,
                 likes: 34,
+                type: "Post",
             },
             {
                 id: "3",
@@ -69,6 +71,7 @@ export function UserPosts() {
                 comments: [],
                 views: 180,
                 likes: 22,
+                type: "Appreciation",
             },
         ]
     }
