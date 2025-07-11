@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 import { Input } from "./ui/input";
-import { useUser, SignOutButton } from "@clerk/clerk-react";
+import { SignOutButton } from "@clerk/clerk-react";
 
 type TopBarProps = {
     header: string
 }
 
 export function TopBar({ header }: TopBarProps) {
-    const { user } = useUser()
 
     return (
         <div className="flex flex-row w-full justify-between items-center">
