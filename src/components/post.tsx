@@ -89,7 +89,7 @@ export function Post({
             tags: tags,
             comments: newComments,
             likes: likes,
-            callAgent: false,
+            callAgent: true,
         }
         const { data: agentErr, error } = await tryCatch(updatePost(updatedPost, id));
         if (error || agentErr) {
