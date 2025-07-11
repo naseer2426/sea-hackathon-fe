@@ -15,6 +15,16 @@ export function fetchPosts(search: string): Promise<FetchPostsResponse> {
     }).then(res => res.data);
 }
 
+export function fetchUserPosts(search: string, userId: string): Promise<FetchPostsResponse> {
+    return axios.get('https://hackathon-2025-eyer.onrender.com/user/post', {
+        params: {
+            op_type: 'list',
+            search,
+            author_id: userId,
+        },
+    }).then(res => res.data);
+}
+
 export function createPost(post: CreatePostRequest): Promise<string> {
     return axios.post('https://hackathon-2025-eyer.onrender.com/user/post?op_type=create', post)
         .then(res => res.data.error);
