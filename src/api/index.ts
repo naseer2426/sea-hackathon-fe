@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { FetchPostsResponse } from './types';
+import type { FetchPostsResponse, CreatePostRequest } from './types';
 
 export function fetchHelloMessage(): Promise<string> {
     return axios.get('https://hackathon-2025-eyer.onrender.com/hello')
@@ -13,4 +13,9 @@ export function fetchPosts(search: string): Promise<FetchPostsResponse> {
             search,
         },
     }).then(res => res.data);
-} 
+}
+
+export function createPost(post: CreatePostRequest): Promise<string> {
+    return axios.post('https://hackathon-2025-eyer.onrender.com/user/post?op_type=create', post)
+        .then(res => res.data.error);
+}

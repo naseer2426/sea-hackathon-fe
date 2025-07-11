@@ -33,3 +33,15 @@ export interface FetchPostsResponse {
     status: string;
 }
 
+export interface CreatePostRequest {
+    title: string;
+    type?: string;
+    content: string;
+    authorName: string;
+    authorImg: string;
+    authorId: string;
+    tags?: string[];
+    comments?: Comment[];
+    likes: number;
+}
+

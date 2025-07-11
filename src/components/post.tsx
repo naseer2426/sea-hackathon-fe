@@ -80,7 +80,7 @@ export function Post({
                                         {loading ? (
                                             <Skeleton className="h-6 w-20 rounded" />
                                         ) : (
-                                            <Badge
+                                            type && <Badge
                                                 variant="outline"
                                                 className={
                                                     type.toLowerCase() === "question"
