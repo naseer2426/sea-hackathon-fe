@@ -21,9 +21,14 @@ export function Forum() {
             position: "top-right",
         });
         const { data: agentError, error } = await tryCatch(createPost(newPost));
-        if (error || agentError) {
+        if (error && error.message) {
             toast.dismiss();
-            return error?.message || agentError || "";
+            toast.error(error.message);
+            return "";
+        }
+        if (agentError) {
+            toast.dismiss();
+            return agentError;
         }
         toast.dismiss();
         toast.success("Post created successfully");
