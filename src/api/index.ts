@@ -19,3 +19,8 @@ export function createPost(post: CreatePostRequest): Promise<string> {
     return axios.post('https://hackathon-2025-eyer.onrender.com/user/post?op_type=create', post)
         .then(res => res.data.error);
 }
+
+export function updatePost(post: CreatePostRequest, id: string): Promise<string> {
+    return axios.put(`https://hackathon-2025-eyer.onrender.com/user/post?op_type=update&post_id=${id}`, post)
+        .then(res => res.data.error);
+}

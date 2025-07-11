@@ -2,11 +2,12 @@ import { TopBar } from "@/components/menubar";
 import { Posts } from "@/components/posts";
 import { CreatePost } from "@/components/create-post";
 import { useEffect, useState } from "react";
-import type { Post, Comment, CreatePostRequest } from "@/api/types";
-import type { CommentProps, PostProps } from "@/components/post";
+import type { CreatePostRequest } from "@/api/types";
+import type { PostProps } from "@/components/post";
 import { createPost, fetchPosts } from "@/api";
 import { tryCatch } from "@/utils/try-catch";
 import { toast } from "sonner";
+import { convertApiPostsToUiPosts } from "@/utils/convert";
 
 export function Forum() {
 
@@ -59,28 +60,4 @@ export function Forum() {
     );
 }
 
-function convertApiPostsToUiPosts(apiPosts: Post[]): PostProps[] {
-    return apiPosts.map((post) => ({
-        id: post.post_id,
-        title: post.title,
-        content: post.content,
-        authorName: post.authorName,
-        timestamp: post.timestamp,
-        tags: post.metaData?.tags || [],
-        type: post.post_type,
-        comments: convertApiCommentsToUiComments(post.metaData?.comments || []),
-        views: post.likes,
-        likes: post.likes,
-    }));
-}
 
-function convertApiCommentsToUiComments(apiComments: Comment[]): CommentProps[] {
-    return apiComments.map((comment) => ({
-        id: comment.id,
-        authorName: comment.authorName,
-        content: comment.content,
-        timestamp: comment.timestamp,
-        likes: comment.likes,
-        authorImg: comment.authorImg,
-    }));
-}

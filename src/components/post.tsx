@@ -6,6 +6,11 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Eye, MessageCircle, ThumbsUp, User, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { CreatePostRequest } from "@/api/types";
+import { tryCatch } from "@/utils/try-catch";
+import { updatePost } from "@/api";
+import { toast } from "sonner";
+import { useUser } from "@clerk/clerk-react";
 
 function timeAgo(timestamp: number): string {
     const now = Date.now() / 1000;
@@ -23,6 +28,7 @@ export interface PostProps {
     title: string;
     content: string;
     authorName: string;
+    authorId: string;
     timestamp: number;
     tags: string[];
     type: string;
@@ -50,12 +56,55 @@ export function Post({
     tags,
     comments,
     views,
+    authorId,
     type,
     likes,
     loading
 }: PostProps) {
     const [expanded, setExpanded] = useState(false);
     const [replyContent, setReplyContent] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [commentsState, setCommentsState] = useState(comments);
+    const [replyUploading, setReplyUploading] = useState(false);
+
+    const { user } = useUser();
+
+    const onReply = async () => {
+        setReplyUploading(true);
+        const newComments = [...commentsState, {
+            id: "",
+            authorName: user?.fullName || "",
+            content: replyContent,
+            timestamp: Math.floor(Date.now() / 1000),
+            likes: 0,
+            authorImg: user?.imageUrl || "",
+        }];
+        const updatedPost: CreatePostRequest = {
+            title,
+            type,
+            content,
+            authorName,
+            authorImg: "",
+            authorId: authorId,
+            tags: tags,
+            comments: newComments,
+            likes: likes,
+            callAgent: false,
+        }
+        const { data: agentErr, error } = await tryCatch(updatePost(updatedPost, id));
+        if (error || agentErr) {
+            setError(error?.message || agentErr);
+            return;
+        }
+        setReplyContent("");
+        setCommentsState(newComments);
+        setReplyUploading(false);
+        toast.success("Reply added successfully");
+    }
+
+    if (error) {
+        toast.error(error);
+    }
 
     return (
         <div className="space-y-4">
@@ -157,7 +206,7 @@ export function Post({
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <MessageCircle className="w-4 h-4 text-orange-500" />
-                                                <span>{comments.length} replies</span>
+                                                <span>{commentsState.length} replies</span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <ThumbsUp className="w-4 h-4 text-green-500" />
@@ -201,7 +250,7 @@ export function Post({
                                 <div className="mt-6 pt-4 border-t space-y-4">
                                     <h4 className="flex items-center gap-2">
                                         <MessageCircle className="w-4 h-4 text-orange-500" />
-                                        Replies ({loading ? <Skeleton className="h-4 w-8 rounded inline-block" /> : comments.length})
+                                        Replies ({loading ? <Skeleton className="h-4 w-8 rounded inline-block" /> : commentsState.length})
                                     </h4>
 
                                     {/* Existing Replies */}
@@ -220,7 +269,7 @@ export function Post({
                                                 </div>
                                             ))
                                         ) : (
-                                            comments.map((comment) => (
+                                            commentsState.map((comment) => (
                                                 <div key={comment.id} className="p-3 rounded-lg border bg-blue-50">
                                                     <div className="flex items-start gap-3">
                                                         <Avatar className="w-8 h-8">
@@ -252,15 +301,25 @@ export function Post({
                                         {loading ? (
                                             <Skeleton className="h-20 w-full rounded" />
                                         ) : (
-                                            <Textarea
-                                                placeholder="Write your reply..."
-                                                value={replyContent}
-                                                onChange={(e) => {
-                                                    setReplyContent(e.target.value);
-                                                }}
-                                                rows={3}
-                                                className="border-blue-200 focus:border-blue-700"
-                                            />
+                                            <>
+                                                <Textarea
+                                                    placeholder="Write your reply..."
+                                                    value={replyContent}
+                                                    onChange={(e) => {
+                                                        setReplyContent(e.target.value);
+                                                    }}
+                                                    rows={3}
+                                                    className="border-blue-200 focus:border-blue-700"
+                                                />
+                                                <Button
+                                                    variant="outline"
+                                                    size="lg"
+                                                    className="h-6 px-2 text-sm hover:bg-blue-100 hover:text-blue-500"
+                                                    onClick={onReply}
+                                                    disabled={replyUploading}
+                                                >Reply</Button>
+                                            </>
+
                                         )}
                                     </div>
                                 </div>

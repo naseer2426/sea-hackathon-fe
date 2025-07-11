@@ -14,6 +14,7 @@ export interface MetaData {
 
 export interface Post {
     post_id: string;
+    author_id: string;
     post_type: string;
     title: string;
     content: string;
@@ -43,5 +44,6 @@ export interface CreatePostRequest {
     tags?: string[];
     comments?: Comment[];
     likes: number;
+    callAgent?: boolean;
 }
 

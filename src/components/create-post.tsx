@@ -26,6 +26,7 @@ export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
             authorImg: user?.imageUrl || "",
             comments: [],
             likes: 0,
+            callAgent: true,
         };
         onPost?.(post);
         setTitle("");
