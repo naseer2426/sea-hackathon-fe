@@ -3,49 +3,69 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Mail } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 
-export function UserCard() {
-    const { user } = useUser()
-    console.log(user)
-    const userData = {
-        name: user?.fullName,
+export type UserData = {
+    name: string;
+    role: string;
+    team: string;
+    email: string;
+    avatar: string;
+    tags: string[];
+};
+
+type UserCardProps = {
+    user?: UserData;
+};
+
+export function UserCard({ user }: UserCardProps) {
+    const { user: clerkUser } = useUser();
+    const userData = user || {
+        name: clerkUser?.fullName,
         role: "Senior Software Engineer",
         team: "Engineering Team",
-        email: user?.emailAddresses[0].emailAddress,
-        avatar: user?.imageUrl,
+        email: clerkUser?.emailAddresses[0].emailAddress,
+        avatar: clerkUser?.imageUrl,
         tags: ["Collaboration", "Innovation", "Growth"],
-    }
+    };
     return (
         <Card>
             <CardContent>
-                <div className="flex flex-col sm:flex-row items-center gap-6">
-                    <Avatar className="w-32 h-32 border-4 border-background shadow-lg">
-                        <AvatarImage src={userData.avatar} alt="Profile" />
-                    </Avatar>
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
+                    {/* Avatar column for lg+, row for below */}
+                    <div className="flex flex-row items-center gap-4 w-full lg:flex-col lg:w-auto lg:items-center lg:justify-start">
+                        <Avatar className="w-16 h-16 lg:w-32 lg:h-32 border-4 border-background shadow-lg">
+                            <AvatarImage src={userData.avatar} alt="Profile" />
+                        </Avatar>
+                        <div className="flex flex-col items-start lg:hidden">
+                            <h1 className="text-xl font-bold break-words">{userData.name}</h1>
+                            <p className="text-muted-foreground text-sm break-words">{userData.team}</p>
+                        </div>
+                    </div>
 
-                    <div className="flex-1 space-y-4">
-                        <div>
-                            <h1 className="text-3xl">{userData.name}</h1>
-                            <p className="text-xl">{userData.role}</p>
-                            <p className="text-muted-foreground">{userData.team}</p>
-                            <div className="mt-2 flex items-center gap-2">
-                                <span className="text-muted-foreground">I commit</span>
-                                <div className="flex flex-wrap gap-2 mt-0">
-                                    {userData.tags.map((tag) => (
-                                        <span key={tag} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">{tag}</span>
-                                    ))}
-                                </div>
+                    {/* All info in one column for lg+ */}
+                    <div className="flex-1 space-y-4 w-full lg:flex lg:flex-col lg:justify-center lg:space-y-4">
+                        {/* Name and team only shown here on lg+ */}
+                        <div className="hidden lg:flex flex-col items-start">
+                            <h1 className="text-3xl font-bold break-words">{userData.name}</h1>
+                            <p className="text-muted-foreground text-xl break-words">{userData.team}</p>
+                        </div>
+                        <p className="text-base lg:text-xl break-words">{userData.role}</p>
+                        <div className="mt-2 flex items-center gap-2">
+                            <span className="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">I commit</span>
+                            <div className="flex flex-wrap gap-2 mt-0">
+                                {userData.tags.map((tag) => (
+                                    <span key={tag} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">{tag}</span>
+                                ))}
                             </div>
                         </div>
-
                         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                                 <Mail className="w-4 h-4" />
-                                <span>{userData.email}</span>
+                                <span className="break-all">{userData.email}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </CardContent>
         </Card>
-    )
+    );
 }
