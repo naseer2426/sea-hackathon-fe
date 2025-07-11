@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Eye, MessageCircle, ThumbsUp, User, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { Eye, MessageCircle, ThumbsUp, User, Calendar, ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { CreatePostRequest } from "@/api/types";
@@ -66,11 +66,14 @@ export function Post({
     const [error, setError] = useState<string | null>(null);
     const [commentsState, setCommentsState] = useState(comments);
     const [replyUploading, setReplyUploading] = useState(false);
+    const [replyError, setReplyError] = useState<string | null>(null);
 
     const { user } = useUser();
 
     const onReply = async () => {
         setReplyUploading(true);
+        setReplyError(null);
+        toast.loading("Processing your reply...");
         const newComments = [...commentsState, {
             id: "",
             authorName: user?.fullName || "",
@@ -92,11 +95,20 @@ export function Post({
             callAgent: true,
         }
         const { data: agentErr, error } = await tryCatch(updatePost(updatedPost, id));
-        if (error || agentErr) {
-            setError(error?.message || agentErr);
+        if (error && error.message) {
+            setError(error.message);
             setReplyUploading(false);
+            toast.dismiss();
             return;
         }
+        if (agentErr) {
+            setReplyUploading(false);
+            setReplyError(agentErr);
+            toast.dismiss();
+            return;
+        }
+        toast.dismiss();
+        setReplyError(null);
         setReplyContent("");
         setCommentsState(newComments);
         setReplyUploading(false);
@@ -312,6 +324,7 @@ export function Post({
                                                     }}
                                                     rows={3}
                                                     className="border-blue-200 focus:border-blue-700"
+                                                    disabled={replyUploading}
                                                 />
                                                 <Button
                                                     variant="outline"
@@ -320,6 +333,10 @@ export function Post({
                                                     onClick={onReply}
                                                     disabled={replyUploading}
                                                 >Reply</Button>
+                                                {replyError && <div className="flex flex-row items-center gap-2 mt-4 bg-blue-200 p-4 rounded-md overflow-auto max-w-full">
+                                                    <Lightbulb className="w-4 h-4 flex-shrink-0" />
+                                                    <p className="text-black text-sm">{replyError}</p>
+                                                </div>}
                                             </>
 
                                         )}

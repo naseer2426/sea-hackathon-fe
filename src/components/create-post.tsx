@@ -12,7 +12,7 @@ export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => P
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>("Thank you for your post! To help everyone understand and engage better, could you please provide more details about the \"simple test\" you mentioned? Specifically, sharing information about the test's purpose, the inputs involved, the expected outcomes, and any relevant context would greatly enhance clarity. This additional information will make your post more informative and helpful to the community");
+    const [error, setError] = useState<string | null>(null);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
