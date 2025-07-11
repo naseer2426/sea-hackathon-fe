@@ -3,15 +3,16 @@ import { Input } from "./ui/input";
 import { SignOutButton } from "@clerk/clerk-react";
 
 type TopBarProps = {
-    header: string
+    header: string,
+    setSearch: (search: string) => void
 }
 
-export function TopBar({ header }: TopBarProps) {
+export function TopBar({ header, setSearch }: TopBarProps) {
 
     return (
         <div className="flex flex-row w-full justify-between items-center">
             <div className="flex flex-row gap-4 items-center">
-                <Input type="text" className="w-[50vw]" placeholder="Search" />
+                <Input type="text" className="w-[50vw]" placeholder="Search" onChange={(e) => setSearch?.(e.target.value)} />
             </div>
             <div className="flex flex-row gap-4">
                 <Link className={`hover:bg-blue-100 p-2 rounded-md ${header === "Profile" ? "bg-blue-100" : ""}`} to="/profile">Profile</Link>
