@@ -1,5 +1,6 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Mail } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 
@@ -14,9 +15,10 @@ export type UserData = {
 
 type UserCardProps = {
     user?: UserData;
+    loading?: boolean;
 };
 
-export function UserCard({ user }: UserCardProps) {
+export function UserCard({ user, loading }: UserCardProps) {
     const { user: clerkUser } = useUser();
     const userData = user || {
         name: clerkUser?.fullName,
@@ -33,11 +35,26 @@ export function UserCard({ user }: UserCardProps) {
                     {/* Avatar column for lg+, row for below */}
                     <div className="flex flex-row items-center gap-4 w-full lg:flex-col lg:w-auto lg:items-center lg:justify-start">
                         <Avatar className="w-16 h-16 lg:w-32 lg:h-32 border-4 border-background shadow-lg">
-                            <AvatarImage src={userData.avatar} alt="Profile" />
+                            {loading ? (
+                                <AvatarFallback>
+                                    <Skeleton className="w-16 h-16 lg:w-32 lg:h-32 rounded-full" />
+                                </AvatarFallback>
+                            ) : (
+                                <AvatarImage src={userData.avatar} alt="Profile" />
+                            )}
                         </Avatar>
                         <div className="flex flex-col items-start lg:hidden">
-                            <h1 className="text-xl font-bold break-words">{userData.name}</h1>
-                            <p className="text-muted-foreground text-sm break-words">{userData.team}</p>
+                            {loading ? (
+                                <>
+                                    <Skeleton className="h-6 w-32 mb-2" />
+                                    <Skeleton className="h-4 w-24" />
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="text-xl font-bold break-words">{userData.name}</h1>
+                                    <p className="text-muted-foreground text-sm break-words">{userData.team}</p>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -45,22 +62,43 @@ export function UserCard({ user }: UserCardProps) {
                     <div className="flex-1 space-y-4 w-full lg:flex lg:flex-col lg:justify-center lg:space-y-4">
                         {/* Name and team only shown here on lg+ */}
                         <div className="hidden lg:flex flex-col items-start">
-                            <h1 className="text-3xl font-bold break-words">{userData.name}</h1>
-                            <p className="text-muted-foreground text-xl break-words">{userData.team}</p>
+                            {loading ? (
+                                <>
+                                    <Skeleton className="h-8 w-48 mb-2" />
+                                    <Skeleton className="h-6 w-32" />
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="text-3xl font-bold break-words">{userData.name}</h1>
+                                    <p className="text-muted-foreground text-xl break-words">{userData.team}</p>
+                                </>
+                            )}
                         </div>
-                        <p className="text-base lg:text-xl break-words">{userData.role}</p>
+                        {loading ? (
+                            <Skeleton className="h-5 w-32" />
+                        ) : (
+                            <p className="text-base lg:text-xl break-words">{userData.role}</p>
+                        )}
                         <div className="mt-2 flex items-center gap-2">
-                            <span className="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">I commit</span>
+                            {userData.tags && userData.tags.length > 0 && <span className="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">I commit</span>}
                             <div className="flex flex-wrap gap-2 mt-0">
-                                {userData.tags.map((tag) => (
-                                    <span key={tag} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">{tag}</span>
-                                ))}
+                                {loading
+                                    ? Array.from({ length: 3 }).map((_, i) => (
+                                        <Skeleton key={i} className="h-6 w-16 rounded-full" />
+                                    ))
+                                    : userData.tags && userData.tags.slice(0, 3).map((tag) => (
+                                        <span key={tag} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">{tag}</span>
+                                    ))}
                             </div>
                         </div>
                         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1">
                                 <Mail className="w-4 h-4" />
-                                <span className="break-all">{userData.email}</span>
+                                {loading ? (
+                                    <Skeleton className="h-4 w-32" />
+                                ) : (
+                                    <span className="break-all">{userData.email}</span>
+                                )}
                             </div>
                         </div>
                     </div>

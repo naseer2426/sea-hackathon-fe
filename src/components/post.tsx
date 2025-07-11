@@ -73,7 +73,13 @@ export function Post({
     const onReply = async () => {
         setReplyUploading(true);
         setReplyError(null);
-        toast.loading("Processing your reply...");
+        toast.loading("Running a quick scan with our AI co-pilot. Your post will surface shortly, thanks for your patience :)", {
+            position: "bottom-left",
+            style: {
+                backgroundColor: "#bedbff",
+                color: "black",
+            },
+        });
         const newComments = [...commentsState, {
             id: "",
             authorName: user?.fullName || "",

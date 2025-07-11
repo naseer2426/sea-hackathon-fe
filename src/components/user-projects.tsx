@@ -2,26 +2,15 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Target, Rocket, Code, TrendingUp } from "lucide-react";
 
-export function UserProjects() {
-    const data = {
-        recentContributions: [
-            {
-                title: "Customer Portal Redesign",
-                description: "Led the complete overhaul of customer-facing interface",
-                tags: ["UI", "Leadership", "React"]
-            },
-            {
-                title: "Real-time Notifications System",
-                description: "Implemented WebSocket-based notification system",
-                tags: ["WebSocket", "Notifications", "Backend"]
-            },
-            {
-                title: "API Performance Optimization",
-                description: "Reduced API response time through caching strategies",
-                tags: ["API", "Performance", "Caching"]
-            }
-        ],
-    };
+type UserProjectsProps = {
+    recentContributions: {
+        title: string;
+        description: string;
+        tags: string[];
+    }[];
+}
+
+export function UserProjects({ recentContributions }: UserProjectsProps) {
     return (
         <>
             <Card className="border-l-4">
@@ -35,7 +24,7 @@ export function UserProjects() {
                     {/* Recent Contributions */}
                     <div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {data.recentContributions.map((contribution: any, index: number) => {
+                            {recentContributions.map((contribution: any, index: number) => {
                                 const getTypeIcon = () => {
                                     const i = Math.floor(Math.random() * 4)
                                     const type = ["project", "feature", "task", "target"][i]

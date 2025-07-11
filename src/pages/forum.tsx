@@ -17,8 +17,12 @@ export function Forum() {
     const [searchString, setSearchString] = useState<string>("");
 
     async function handleCreatePost(newPost: CreatePostRequest): Promise<string> {
-        toast.loading("Processing your post...", {
+        toast.loading("Running a quick scan with our AI co-pilot. Your post will surface shortly, thanks for your patience :)", {
             position: "top-right",
+            style: {
+                backgroundColor: "#bedbff",
+                color: "black",
+            },
         });
         const { data: agentError, error } = await tryCatch(createPost(newPost));
         if (error && error.message) {
