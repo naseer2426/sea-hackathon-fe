@@ -28,17 +28,13 @@ export function UserProjects() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Target className="w-5 h-5" />
-                        Here's what I'm committed to.
+                        I run
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     {/* Recent Contributions */}
                     <div>
-                        <h4 className="flex items-center gap-2 mb-4">
-                            <Rocket className="w-4 h-4" />
-                            Recent Contributions
-                        </h4>
-                        <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {data.recentContributions.map((contribution: any, index: number) => {
                                 const getTypeIcon = () => {
                                     const i = Math.floor(Math.random() * 4)

@@ -6,7 +6,7 @@ export type PostsProps = {
 
 export function Posts({ posts }: PostsProps) {
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 p-4">
             {posts.map((post) => (
                 <Post key={post.id} {...post} />
             ))}

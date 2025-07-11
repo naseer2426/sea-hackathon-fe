@@ -1,4 +1,6 @@
 import { Posts, type PostsProps } from "./posts";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { MessageCircle } from "lucide-react";
 
 export function UserPosts() {
     const posts: PostsProps = {
@@ -71,6 +73,14 @@ export function UserPosts() {
         ]
     }
     return (
-        <Posts {...posts} />
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-blue-500" />
+                    Recent Posts
+                </CardTitle>
+            </CardHeader>
+            <Posts {...posts} />
+        </Card>
     )
 }
