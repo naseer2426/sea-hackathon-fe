@@ -94,6 +94,7 @@ export function Post({
         const { data: agentErr, error } = await tryCatch(updatePost(updatedPost, id));
         if (error || agentErr) {
             setError(error?.message || agentErr);
+            setReplyUploading(false);
             return;
         }
         setReplyContent("");
@@ -104,6 +105,7 @@ export function Post({
 
     if (error) {
         toast.error(error);
+        setError(null);
     }
 
     return (

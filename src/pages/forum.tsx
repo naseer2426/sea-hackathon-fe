@@ -47,6 +47,7 @@ export function Forum() {
 
     if (error) {
         toast.error(error);
+        setError(null);
     }
 
     return (
