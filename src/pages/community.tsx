@@ -174,7 +174,7 @@ export function Community() {
 
     return (
         <div>
-            <TopBar header="Community" />
+            <TopBar header="Community" setSearch={() => { }} />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                 {people.map((user, idx) => (
                     <UserCard key={idx} user={user} />

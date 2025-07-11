@@ -7,7 +7,7 @@ export function Profile() {
 
     return (
         <div className="flex flex-col gap-4">
-            <TopBar header="Profile" />
+            <TopBar header="Profile" setSearch={() => { }} />
             <UserCard />
             <UserSummary />
             <UserProjects />
