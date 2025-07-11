@@ -37,7 +37,7 @@ export function UserPosts({ userId, search }: UserPostsProps) {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <MessageCircle className="w-5 h-5 text-blue-500" />
-                    Recent Posts
+                    I serve
                 </CardTitle>
             </CardHeader>
             {!isLoading && posts.length == 0 && <p className="text-center text-sm text-gray-500">We'll be here soon!</p>}

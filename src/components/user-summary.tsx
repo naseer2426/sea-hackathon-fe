@@ -12,7 +12,7 @@ export function UserSummary() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-sea-light-blue" />
-                        AI Work Summary
+                        I stay humble
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
