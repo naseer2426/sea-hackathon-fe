@@ -7,6 +7,13 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --sea-red: #E41E26;
+  --sea-orange: #FF5722;
+  --sea-green: #00A54A;
+  --sea-light-blue: #00E8FF;
+  --sea-mid-blue: #478EF7;
+  --sea-dark-blue: #000084;
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -117,6 +124,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
