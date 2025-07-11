@@ -5,16 +5,19 @@ import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
 import { useState } from "react";
 import type { CreatePostRequest } from "@/api/types";
+import { Lightbulb } from 'lucide-react';
 
-export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
+export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => Promise<string> }) {
     const { user } = useUser();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>("Thank you for your post! To help everyone understand and engage better, could you please provide more details about the \"simple test\" you mentioned? Specifically, sharing information about the test's purpose, the inputs involved, the expected outcomes, and any relevant context would greatly enhance clarity. This additional information will make your post more informative and helpful to the community");
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setLoading(true);
+        setError(null);
         // Placeholder: call onPost or just reset
         const post: CreatePostRequest = {
             type: "",
@@ -28,7 +31,13 @@ export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
             likes: 0,
             callAgent: true,
         };
-        onPost?.(post);
+        const error = await onPost?.(post);
+        if (error) {
+            setError(error);
+            setLoading(false);
+            return;
+        }
+        setError(null);
         setTitle("");
         setContent("");
         setLoading(false);
@@ -46,6 +55,7 @@ export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
                             className="font-semibold"
                             maxLength={80}
                             required
+                            disabled={loading}
                         />
                         <Textarea
                             placeholder="Description"
@@ -54,6 +64,7 @@ export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
                             rows={6}
                             maxLength={280}
                             required
+                            disabled={loading}
                         />
                         <div className="flex justify-end mt-2">
                             <Button type="submit" disabled={loading || !title || !content}>
@@ -61,9 +72,12 @@ export function CreatePost({ onPost }: { onPost?: (post: any) => void }) {
                             </Button>
                         </div>
                     </form>
+                    {error && <div className="flex flex-row items-center gap-2 mt-4 bg-blue-200 p-4 rounded-md overflow-auto max-w-full">
+                        <Lightbulb className="w-4 h-4 flex-shrink-0" />
+                        <p className="text-black text-sm">{error}</p>
+                    </div>}
                 </CardContent>
             </Card>
         </div>
-
     );
 }

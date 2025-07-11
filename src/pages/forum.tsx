@@ -16,16 +16,19 @@ export function Forum() {
     const [error, setError] = useState<string | null>(null);
     const [searchString, setSearchString] = useState<string>("");
 
-    async function handleCreatePost(newPost: CreatePostRequest) {
-        setIsLoading(true);
+    async function handleCreatePost(newPost: CreatePostRequest): Promise<string> {
+        toast.loading("Processing your post...", {
+            position: "top-right",
+        });
         const { data: agentError, error } = await tryCatch(createPost(newPost));
         if (error || agentError) {
-            setError(error?.message || agentError);
-            setIsLoading(false);
-            return;
+            toast.dismiss();
+            return error?.message || agentError || "";
         }
-        setIsLoading(false);
+        toast.dismiss();
+        toast.success("Post created successfully");
         await getPosts(searchString);
+        return "";
     }
     async function getPosts(search: string) {
         setIsLoading(true);
