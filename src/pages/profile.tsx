@@ -2,6 +2,7 @@ import { TopBar } from "@/components/menubar";
 import { UserCard } from "@/components/user-details";
 import { UserSummary } from "@/components/user-summary";
 import { UserProjects } from "@/components/user-projects";
+import { UserPosts } from "@/components/user-posts";
 export function Profile() {
 
     return (
@@ -10,6 +11,7 @@ export function Profile() {
             <UserCard />
             <UserSummary />
             <UserProjects />
+            <UserPosts />
         </div>
     )
 }
