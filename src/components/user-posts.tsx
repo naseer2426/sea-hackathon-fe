@@ -40,8 +40,8 @@ export function UserPosts({ userId, search }: UserPostsProps) {
                     Recent Posts
                 </CardTitle>
             </CardHeader>
-            {!isLoading && posts.length == 0 && <p className="text-center text-sm text-gray-500">You have no posts</p>}
-            <Posts posts={posts} loading={isLoading} />
+            {!isLoading && posts.length == 0 && <p className="text-center text-sm text-gray-500">We'll be here soon!</p>}
+            {posts.length > 0 && !isLoading && <Posts posts={posts} loading={isLoading} />}
         </Card>
     )
 }
