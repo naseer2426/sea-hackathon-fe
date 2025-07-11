@@ -4,12 +4,12 @@ import { Navigate } from 'react-router-dom';
 export function Login() {
     const { isSignedIn } = useUser();
     if (isSignedIn) {
-        return <Navigate to="/forum" />;
+        return <Navigate to="/profile" />;
     }
     return (
         <>
             <div className="h-screen w-screen flex flex-col items-center justify-center">
-                <SignIn fallbackRedirectUrl={"/forum"} />
+                <SignIn fallbackRedirectUrl={"/profile"} />
             </div>
         </>
     )

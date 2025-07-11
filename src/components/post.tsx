@@ -69,7 +69,7 @@ export function Post({
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
-                                        <h3 className="line-clamp-2">{title}</h3>
+                                        <h3 className="text-xl font-semibold">{title}</h3>
                                     </div>
 
 
