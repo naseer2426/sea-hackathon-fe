@@ -8,7 +8,6 @@ import { fetchPosts } from "@/api";
 import { tryCatch } from "@/utils/try-catch";
 import { toast } from "sonner";
 
-
 export function Forum() {
 
     const [posts, setPosts] = useState<PostProps[]>([]);
