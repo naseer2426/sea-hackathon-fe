@@ -9,17 +9,17 @@ import { convertApiPostsToUiPosts } from "@/utils/convert";
 import { toast } from "sonner";
 
 interface UserPostsProps {
-    userId: string;
+    userEmail: string;
     search?: string;
 }
 
-export function UserPosts({ userId, search }: UserPostsProps) {
+export function UserPosts({ userEmail, search }: UserPostsProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState<PostProps[]>([]);
 
-    async function getPosts(search: string, userId: string) {
+    async function getPosts(search: string, userEmail: string) {
         setIsLoading(true);
-        const { data, error } = await tryCatch(fetchUserPosts(search, userId));
+        const { data, error } = await tryCatch(fetchUserPosts(search, userEmail));
         if (error) {
             toast.error(error.message);
             setIsLoading(false);
@@ -30,8 +30,8 @@ export function UserPosts({ userId, search }: UserPostsProps) {
     }
 
     useEffect(() => {
-        getPosts(search || "", userId);
-    }, [search, userId]);
+        getPosts(search || "", userEmail);
+    }, [search, userEmail]);
     return (
         <Card>
             <CardHeader>

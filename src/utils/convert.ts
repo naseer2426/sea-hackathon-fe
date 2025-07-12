@@ -8,6 +8,7 @@ export function convertApiPostsToUiPosts(apiPosts: Post[]): PostProps[] {
         content: post.content,
         authorName: post.authorName,
         timestamp: post.timestamp,
+        authorEmail: post.authorEmail,
         tags: post.metaData?.tags || [],
         type: post.post_type,
         comments: convertApiCommentsToUiComments(post.metaData?.comments || []),
@@ -23,6 +24,7 @@ export function convertApiCommentsToUiComments(apiComments: Comment[]): CommentP
         authorName: comment.authorName,
         content: comment.content,
         timestamp: comment.timestamp,
+        authorEmail: comment.authorEmail,
         likes: comment.likes,
         authorImg: comment.authorImg,
     }));

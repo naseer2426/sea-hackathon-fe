@@ -27,6 +27,7 @@ export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => P
             authorName: user?.fullName || "Anonymous",
             authorId: user?.id || "",
             authorImg: user?.imageUrl || "",
+            authorEmail: user?.emailAddresses[0].emailAddress || "",
             comments: [],
             likes: 0,
             callAgent: true,
@@ -61,8 +62,8 @@ export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => P
                             placeholder="Description"
                             value={content}
                             onChange={e => setContent(e.target.value)}
-                            rows={6}
-                            maxLength={280}
+                            rows={20}
+                            maxLength={3000}
                             required
                             disabled={loading}
                         />

@@ -1,6 +1,7 @@
 export interface Comment {
     id: string;
     authorName: string;
+    authorEmail: string;
     authorImg: string;
     content: string;
     timestamp: number;
@@ -19,6 +20,7 @@ export interface Post {
     title: string;
     content: string;
     authorName: string;
+    authorEmail: string;
     authorImg: string;
     timestamp: number;
     metaData: MetaData;
@@ -41,6 +43,7 @@ export interface CreatePostRequest {
     authorName: string;
     authorImg: string;
     authorId: string;
+    authorEmail: string;
     tags?: string[];
     comments?: Comment[];
     likes: number;

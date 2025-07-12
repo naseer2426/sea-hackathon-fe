@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Mail } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 export type UserData = {
     name: string;
@@ -16,9 +17,11 @@ export type UserData = {
 type UserCardProps = {
     user?: UserData;
     loading?: boolean;
+    iCommit?: boolean;
 };
 
-export function UserCard({ user, loading }: UserCardProps) {
+export function UserCard({ user, loading, iCommit }: UserCardProps) {
+    const navigate = useNavigate();
     const { user: clerkUser } = useUser();
     const userData = user || {
         name: clerkUser?.fullName,
@@ -29,7 +32,11 @@ export function UserCard({ user, loading }: UserCardProps) {
         tags: ["Collaboration", "Innovation", "Growth"],
     };
     return (
-        <Card>
+        <Card className="hover:shadow-lg cursor-pointer" onClick={() => {
+            if (userData.email) {
+                navigate(`/profile?userEmail=${userData.email}`);
+            }
+        }}>
             <CardContent>
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6">
                     {/* Avatar column for lg+, row for below */}
@@ -80,7 +87,7 @@ export function UserCard({ user, loading }: UserCardProps) {
                             <p className="text-base lg:text-xl break-words">{userData.role}</p>
                         )}
                         <div className="mt-2 flex items-center gap-2">
-                            {userData.tags && userData.tags.length > 0 && <span className="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">I commit</span>}
+                            {iCommit && userData.tags && userData.tags.length > 0 && <span className="text-muted-foreground overflow-hidden text-ellipsis whitespace-nowrap">I commit</span>}
                             <div className="flex flex-wrap gap-2 mt-0">
                                 {loading
                                     ? Array.from({ length: 3 }).map((_, i) => (

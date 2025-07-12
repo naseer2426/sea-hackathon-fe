@@ -21,12 +21,12 @@ export function fetchPosts(search: string): Promise<FetchPostsResponse> {
     }).then(res => res.data);
 }
 
-export function fetchUserPosts(search: string, userId: string): Promise<FetchPostsResponse> {
+export function fetchUserPosts(search: string, userEmail: string): Promise<FetchPostsResponse> {
     return axios.get('https://hackathon-2025-eyer.onrender.com/user/post', {
         params: {
             op_type: 'list',
             search,
-            author_id: userId,
+            author_email: userEmail,
         },
     }).then(res => res.data);
 }

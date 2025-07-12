@@ -11,6 +11,7 @@ import { tryCatch } from "@/utils/try-catch";
 import { updatePost } from "@/api";
 import { toast } from "sonner";
 import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
 
 function timeAgo(timestamp: number): string {
     const now = Date.now() / 1000;
@@ -26,13 +27,14 @@ function timeAgo(timestamp: number): string {
 export interface PostProps {
     id: string;
     title: string;
-    content: string;
+    content: string
     authorName: string;
     authorId: string;
     timestamp: number;
     tags: string[];
     type: string;
     comments: CommentProps[];
+    authorEmail: string;
     views: number;
     likes: number;
     loading?: boolean;
@@ -43,6 +45,7 @@ export interface CommentProps {
     authorName: string;
     content: string;
     timestamp: number;
+    authorEmail: string;
     likes: number;
     authorImg: string;
 }
@@ -53,6 +56,7 @@ export function Post({
     content,
     authorName,
     timestamp,
+    authorEmail,
     tags,
     comments,
     views,
@@ -67,6 +71,7 @@ export function Post({
     const [commentsState, setCommentsState] = useState(comments);
     const [replyUploading, setReplyUploading] = useState(false);
     const [replyError, setReplyError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const { user } = useUser();
 
@@ -86,6 +91,7 @@ export function Post({
             content: replyContent,
             timestamp: Math.floor(Date.now() / 1000),
             likes: 0,
+            authorEmail: user?.emailAddresses[0].emailAddress || "",
             authorImg: user?.imageUrl || "",
         }];
         const updatedPost: CreatePostRequest = {
@@ -96,6 +102,7 @@ export function Post({
             authorImg: "",
             authorId: authorId,
             tags: tags,
+            authorEmail: user?.emailAddresses[0].emailAddress || "",
             comments: newComments,
             likes: likes,
             callAgent: true,
@@ -192,6 +199,11 @@ export function Post({
                                                 <User className="w-4 h-4 text-blue-700" />
                                                 <button
                                                     className="font-semibold hover:text-blue-700 transition-colors cursor-pointer"
+                                                    onClick={() => {
+                                                        if (authorEmail) {
+                                                            navigate(`/profile?userEmail=${authorEmail}`);
+                                                        }
+                                                    }}
                                                 >
                                                     {authorName}
                                                 </button>
@@ -344,7 +356,6 @@ export function Post({
                                                     <p className="text-black text-sm">{replyError}</p>
                                                 </div>}
                                             </>
-
                                         )}
                                     </div>
                                 </div>

@@ -19,6 +19,7 @@ const loadingPosts: PostProps[] = [
         views: 0,
         likes: 0,
         loading: true,
+        authorEmail: "Loading...",
     },
     {
         id: "2",
@@ -29,6 +30,7 @@ const loadingPosts: PostProps[] = [
         timestamp: 0,
         tags: [],
         type: "Loading...",
+        authorEmail: "Loading...",
         comments: [],
         views: 0,
         likes: 0,
@@ -44,6 +46,7 @@ const loadingPosts: PostProps[] = [
         tags: [],
         type: "Loading...",
         comments: [],
+        authorEmail: "Loading...",
         views: 0,
         likes: 0,
         loading: true,
