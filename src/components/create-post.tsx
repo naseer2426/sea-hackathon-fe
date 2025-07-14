@@ -62,7 +62,7 @@ export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => P
                             placeholder="Description"
                             value={content}
                             onChange={e => setContent(e.target.value)}
-                            rows={20}
+                            className="h-32 sm:h-52"
                             maxLength={3000}
                             required
                             disabled={loading}
