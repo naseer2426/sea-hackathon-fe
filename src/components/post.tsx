@@ -143,7 +143,7 @@ export function Post({
                     className={`hover:shadow-md`}
                 >
                     <CardContent className="p-6">
-                        <div className="space-y-4">
+                        <div className="space-y-2 sm:space-y-4">
                             {/* Post Header */}
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
@@ -151,7 +151,7 @@ export function Post({
                                         {loading ? (
                                             <Skeleton className="h-6 w-40 rounded" />
                                         ) : (
-                                            <h3 className="text-xl font-semibold">{title}</h3>
+                                            <h3 className="text-md sm:text-xl font-semibold break-words">{title}</h3>
                                         )}
                                         {loading ? (
                                             <Skeleton className="h-6 w-20 rounded" />
@@ -174,7 +174,7 @@ export function Post({
                                     {loading ? (
                                         <Skeleton className="h-5 w-full max-w-lg mb-3" />
                                     ) : (
-                                        <p className="text-muted-foreground text-sm line-clamp-2 mb-3">{content}</p>
+                                        <div className="text-muted-foreground text-sm mb-3 break-all">{content}</div>
                                     )}
 
                                     {/* Tags */}
@@ -222,7 +222,7 @@ export function Post({
                             </div>
 
                             {/* Post Actions & Stats */}
-                            <div className="flex items-center justify-between pt-4 border-t">
+                            <div className="flex items-center justify-between pt-2 sm:pt-4 border-t">
                                 <div className="flex items-center gap-6 text-sm text-muted-foreground">
                                     {loading ? (
                                         <>
@@ -234,15 +234,18 @@ export function Post({
                                         <>
                                             <div className="flex items-center gap-1">
                                                 <Eye className="w-4 h-4 text-blue-400" />
-                                                <span>{views} seas</span>
+                                                <span className="hidden sm:inline">{views} seas</span>
+                                                <span className="inline sm:hidden">{views}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <MessageCircle className="w-4 h-4 text-orange-500" />
-                                                <span>{commentsState.length} replies</span>
+                                                <span className="hidden sm:inline">{commentsState.length} replies</span>
+                                                <span className="inline sm:hidden">{commentsState.length}</span>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <ThumbsUp className="w-4 h-4 text-green-500" />
-                                                <span>{likes} {"We Serve"}</span>
+                                                <span className="hidden sm:inline">{likes} {"We Serve"}</span>
+                                                <span className="inline sm:hidden">{likes}</span>
                                             </div>
                                         </>
                                     )}
@@ -259,19 +262,7 @@ export function Post({
                                             className="flex items-center gap-1 hover:bg-blue-100 hover:text-blue-500"
                                         >
                                             {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                                            {expanded ? "Hide" : "View"} Replies
-                                        </Button>
-                                    )}
-                                    {loading ? (
-                                        <Skeleton className="h-8 w-24 rounded" />
-                                    ) : (
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className={`flex items-center gap-1`}
-                                        >
-                                            <ThumbsUp className="w-4 h-4" />
-                                            {"We Serve"}
+                                            <span className="hidden sm:inline">{expanded ? "Hide" : "View"} Replies</span>
                                         </Button>
                                     )}
                                 </div>
@@ -279,14 +270,14 @@ export function Post({
 
                             {/* Replies Section */}
                             {expanded && (
-                                <div className="mt-6 pt-4 border-t space-y-4">
+                                <div className="mt-2 sm:mt-6 pt-2 sm:pt-4 border-t space-y-2 sm:space-y-4">
                                     <h4 className="flex items-center gap-2">
                                         <MessageCircle className="w-4 h-4 text-orange-500" />
                                         Replies ({loading ? <Skeleton className="h-4 w-8 rounded inline-block" /> : commentsState.length})
                                     </h4>
 
                                     {/* Existing Replies */}
-                                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                                    <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                                         {loading ? (
                                             Array.from({ length: 2 }).map((_, i) => (
                                                 <div key={i} className="p-3 rounded-lg border bg-blue-50">
@@ -351,7 +342,7 @@ export function Post({
                                                     onClick={onReply}
                                                     disabled={replyUploading}
                                                 >Reply</Button>
-                                                {replyError && <div className="flex flex-row items-center gap-2 mt-4 bg-blue-200 p-4 rounded-md overflow-auto max-w-full">
+                                                {replyError && <div className="flex flex-col sm:flex-row items-center gap-2 mt-4 bg-blue-200 p-4 rounded-md overflow-auto max-w-full">
                                                     <Lightbulb className="w-4 h-4 flex-shrink-0" />
                                                     <p className="text-black text-sm">{replyError}</p>
                                                 </div>}

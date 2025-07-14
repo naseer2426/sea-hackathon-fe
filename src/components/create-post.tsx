@@ -45,7 +45,7 @@ export function CreatePost({ onPost }: { onPost?: (post: CreatePostRequest) => P
     }
 
     return (
-        <div className="p-4">
+        <div className="sm:p-4">
             <Card className="">
                 <CardContent className="p-4">
                     <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-2">

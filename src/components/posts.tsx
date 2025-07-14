@@ -55,7 +55,7 @@ const loadingPosts: PostProps[] = [
 
 export function Posts({ posts, loading }: PostsProps) {
     return (
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 sm:p-4">
             {loading && posts && posts.length == 0 && loadingPosts.map((post) => {
                 return <Post key={post.id} {...post} loading={loading} />
             })}
