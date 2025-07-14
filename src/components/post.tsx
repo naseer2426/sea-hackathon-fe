@@ -294,11 +294,11 @@ export function Post({
                                         ) : (
                                             commentsState.map((comment) => (
                                                 <div key={comment.id} className="p-3 rounded-lg border bg-blue-50">
-                                                    <div className="flex items-start gap-3">
-                                                        <Avatar className="w-8 h-8">
-                                                            <AvatarImage src={comment.authorImg} />
-                                                        </Avatar>
-                                                        <div className="flex-1">
+                                                    <div className="flex-col space-y-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <Avatar className="w-8 h-8">
+                                                                <AvatarImage src={comment.authorImg} />
+                                                            </Avatar>
                                                             <div className="flex items-center gap-2 mb-1">
                                                                 <button
                                                                     className="text-sm font-semibold hover:text-blue-700 transition-colors cursor-pointer"
@@ -307,7 +307,9 @@ export function Post({
                                                                 </button>
                                                                 <span className="text-xs text-muted-foreground">{timeAgo(comment.timestamp)}</span>
                                                             </div>
-                                                            <p className="text-sm text-muted-foreground mb-2">{comment.content}</p>
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <p className="text-sm text-muted-foreground mb-2 overflow-auto">{comment.content}</p>
                                                             <Button variant="ghost" size="sm" className="h-6 px-2 text-xs hover:bg-green-100 hover:text-green-500">
                                                                 <ThumbsUp className="w-3 h-3 mr-1" />
                                                                 {comment.likes}
